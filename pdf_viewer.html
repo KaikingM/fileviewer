@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF-viewer</title>
+</head>
+<style>
+    body{
+        width: 100vw;
+        margin: 0;
+        text-align: center;
+    }
+    .prev{
+        background-color: rgba(255, 127, 127, 0.5);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 40vw;
+        height: 100vh;
+    }
+    .next{
+        background-color: rgba(240, 255, 242, 0.5);
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 40vw;
+        height: 100vh;
+    }
+    embed{
+        margin: 0;
+        width: 76.00vh;
+        height: 20000vh;
+    }
+    .embed_wrap{
+        height: 100vh;
+        margin: 0;
+        overflow: auto;
+    }
+</style>
+<body>
+    <div class="prev"></div>
+    <div class="next"></div>
+    <div class="embed_wrap"><embed src="test3.pdf#toolbar=0&view=Fit&scrollbar=0&page=1" type="application/pdf" class="fileview"></div>
+    <input class="file">
+</body>
+<script>
+    let path = "test2.pdf"
+    var page = 1
+    function showpage(){
+
+        var viewer = document.createElement("embed")
+
+        viewer.src = path + "#toolbar=0&view=Fit&scrollbar=0&page=" + page.toString()
+        viewer.type = "application/pdf"
+        viewer.className = "fileview"
+
+        document.querySelector(".fileview").remove()
+        document.querySelector(".embed_wrap").appendChild(viewer)
+    }
+
+    function pagescroll(next){
+
+        document.querySelector(".embed_wrap").scrollBy(0,next ? window.innerHeight:-window.innerHeight)
+
+    }
+
+    document.querySelector(".prev").addEventListener("click",function(){
+        pagescroll(false)
+    })
+
+    document.querySelector(".next").addEventListener("click",function(){
+        pagescroll(true)
+    })
+
+    document.querySelector(".file").addEventListener("input",function(){
+        path = document.querySelector(".file").value
+        showpage()
+    })
+</script>
+</html>
